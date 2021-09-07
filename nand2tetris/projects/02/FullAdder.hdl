@@ -14,4 +14,34 @@ CHIP FullAdder {
 
     PARTS:
     // Put you code here:
+    // f(carry) = bc + ac + ab
+    // f(sum) = ~a~bc + ~ab~c + a~b~c + abc
+
+    And(a = b, b = c, out = bc);
+    And(a = a, b = c, out = ac);
+    And(a = a, b = b, out = ab);
+
+    Or(a = bc, b = ac, out = bcac);
+    Or(a = bcac, b = ab, out = carry);
+
+    Not(in = a, out = nota);
+    Not(in = b, out = notb);
+    Not(in = c, out = notc);
+
+    And(a = nota, b = notb, out = notab);
+    And(a = notab, b = c, out = notabc);
+
+    And(a = nota, b = b, out = notayesb);
+    And(a = notayesb, b = notc, out = notabnotc);
+
+    And(a = a, b = notb, out = anotb);
+    And(a = anotb, b = notc, out = anotbc);
+
+    And(a = a, b = b, out = ba);
+    And(a = ba, b = c, out = abc);
+
+    Or(a = notabc, b = notabnotc, out = sumLeft);
+    Or(a = anotbc, b = abc, out = sumRight);
+
+    Or(a = sumLeft, b = sumRight, out = sum);
 }

@@ -14,4 +14,13 @@ CHIP HalfAdder {
 
     PARTS:
     // Put you code here:
+    // f(carry) = ab
+    // f(sum) = ~ab + a~b
+
+    And(a = a , b = b, out = carry);
+    Not(in = a, out = nota);
+    Not(in = b, out = notb);
+    And(a = nota, b = b, out = sumLeft);
+    And(a = a, b = notb, out = sumRight);
+    Or(a = sumLeft, b = sumRight, out = sum);
 }
